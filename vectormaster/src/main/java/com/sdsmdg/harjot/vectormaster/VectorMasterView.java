@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.sdsmdg.harjot.vectormaster.models.ClipPathModel;
@@ -22,6 +23,13 @@ import java.io.IOException;
 import java.util.Stack;
 
 public class VectorMasterView extends View {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getRawX();
+        float y = event.getRawY();
+
+        return super.onTouchEvent(event);
+    }
 
     VectorModel vectorModel;
     Context context;
@@ -268,6 +276,8 @@ public class VectorMasterView extends View {
             scaleAllStrokes();
         }
     }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {

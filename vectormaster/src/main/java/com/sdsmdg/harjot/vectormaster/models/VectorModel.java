@@ -51,10 +51,13 @@ public class VectorModel {
             if (pathModel.isFillAndStroke()) {
                 pathModel.makeFillPaint();
                 canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getOverlayPathPaint());
                 pathModel.makeStrokePaint();
                 canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getOverlayPathPaint());
             } else {
                 canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getScaledAndOffsetPath(offsetX, offsetY, scaleX, scaleY), pathModel.getOverlayPathPaint());
             }
         }
     }
@@ -70,10 +73,13 @@ public class VectorModel {
             if (pathModel.isFillAndStroke()) {
                 pathModel.makeFillPaint();
                 canvas.drawPath(pathModel.getPath(), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getPath(), pathModel.getOverlayPathPaint());
                 pathModel.makeStrokePaint();
                 canvas.drawPath(pathModel.getPath(), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getPath(), pathModel.getOverlayPathPaint());
             } else {
                 canvas.drawPath(pathModel.getPath(), pathModel.getPathPaint());
+                canvas.drawPath(pathModel.getPath(), pathModel.getOverlayPathPaint());
             }
         }
     }

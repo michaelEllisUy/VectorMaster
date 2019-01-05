@@ -1,9 +1,11 @@
 package com.sdsmdg.harjot.vectormasterdemo;
 
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -76,11 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
     void animateLightning() {
         PathModel cloudModel = lightningView.getPathModelByName("cloud");
-        cloudModel.setStrokeColor(Color.parseColor("#5D5D5D"));
+        cloudModel.setStrokeColor(Color.parseColor("#000000"));
         final PathModel lightningModel = lightningView.getPathModelByName("lightning");
         lightningModel.setStrokeColor(Color.parseColor("#FFD700"));
         lightningModel.setTrimPathEnd(0.0f);
         lightningModel.setTrimPathStart(0.0f);
+        cloudModel.setFillAlpha(0.5f);
+        cloudModel.setStrokeAlpha(0.5f);
+        cloudModel.setOverlayfillAlpha(1);
+        cloudModel.setOverlayFillColor(Color.parseColor("#f7e300"));
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {

@@ -5,10 +5,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 
 import com.sdsmdg.harjot.vectormaster.DefaultValues;
-import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.utilities.Utils;
 import com.sdsmdg.harjot.vectormaster.utilities.parser.PathParser;
 
@@ -17,6 +18,9 @@ public class PathModel {
     private String name;
 
     private float fillAlpha;
+    private float overlayfillAlpha;
+
+    private int overlayFillColor;
     private int fillColor;
 
     private Path.FillType fillType;
@@ -42,12 +46,15 @@ public class PathModel {
     private Path path;
     private Path trimmedPath;
     private Paint pathPaint;
+    private Paint overlayPaint;
 
     private Matrix scaleMatrix;
 
     public PathModel() {
         fillAlpha = DefaultValues.PATH_FILL_ALPHA;
         fillColor = DefaultValues.PATH_FILL_COLOR;
+        overlayfillAlpha = DefaultValues.PATH_OVELRAY_FILL_ALPHA;
+        overlayFillColor = DefaultValues.OVERLAY_FILL_COLOR;
         fillType = DefaultValues.PATH_FILL_TYPE;
         trimPathStart = DefaultValues.PATH_TRIM_PATH_START;
         trimPathEnd = DefaultValues.PATH_TRIM_PATH_END;
@@ -62,6 +69,8 @@ public class PathModel {
 
         pathPaint = new Paint();
         pathPaint.setAntiAlias(true);
+        overlayPaint = new Paint();
+        overlayPaint.setAntiAlias(true);
         updatePaint();
     }
 
@@ -79,6 +88,7 @@ public class PathModel {
 
     public void updatePaint() {
         pathPaint.setStrokeWidth(strokeWidth * strokeRatio);
+        overlayPaint.setStrokeWidth(strokeWidth * strokeRatio);
 
         if (fillColor != Color.TRANSPARENT && strokeColor != Color.TRANSPARENT) {
             isFillAndStroke = true;
@@ -86,11 +96,17 @@ public class PathModel {
             pathPaint.setColor(fillColor);
             pathPaint.setAlpha(Utils.getAlphaFromFloat(fillAlpha));
             pathPaint.setStyle(Paint.Style.FILL);
+            overlayPaint.setStyle(Paint.Style.FILL);
+            overlayPaint.setColor(overlayFillColor);
+            overlayPaint.setAlpha(Utils.getAlphaFromFloat(overlayfillAlpha));
             isFillAndStroke = false;
         } else if (strokeColor != Color.TRANSPARENT) {
             pathPaint.setColor(strokeColor);
             pathPaint.setAlpha(Utils.getAlphaFromFloat(strokeAlpha));
             pathPaint.setStyle(Paint.Style.STROKE);
+            overlayPaint.setStyle(Paint.Style.STROKE);
+            overlayPaint.setColor(overlayFillColor);
+            overlayPaint.setAlpha(Utils.getAlphaFromFloat(overlayfillAlpha));
             isFillAndStroke = false;
         } else {
             pathPaint.setColor(Color.TRANSPARENT);
@@ -99,18 +115,30 @@ public class PathModel {
         pathPaint.setStrokeCap(strokeLineCap);
         pathPaint.setStrokeJoin(strokeLineJoin);
         pathPaint.setStrokeMiter(strokeMiterLimit);
+
+        overlayPaint.setStrokeCap(strokeLineCap);
+        overlayPaint.setStrokeJoin(strokeLineJoin);
+        overlayPaint.setStrokeMiter(strokeMiterLimit);
     }
 
     public void makeStrokePaint() {
         pathPaint.setColor(strokeColor);
         pathPaint.setAlpha(Utils.getAlphaFromFloat(strokeAlpha));
         pathPaint.setStyle(Paint.Style.STROKE);
+        overlayPaint.setAlpha(Utils.getAlphaFromFloat(overlayfillAlpha));
+        overlayPaint.setColor(overlayFillColor);
+        overlayPaint.setStyle(Paint.Style.STROKE);
+        overlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     public void makeFillPaint() {
         pathPaint.setColor(fillColor);
         pathPaint.setAlpha(Utils.getAlphaFromFloat(fillAlpha));
         pathPaint.setStyle(Paint.Style.FILL);
+        overlayPaint.setAlpha(Utils.getAlphaFromFloat(overlayfillAlpha));
+        overlayPaint.setColor(overlayFillColor);
+        overlayPaint.setStyle(Paint.Style.FILL);
+        overlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     public void transform(Matrix matrix) {
@@ -170,6 +198,10 @@ public class PathModel {
         return pathPaint;
     }
 
+    public Paint getOverlayPathPaint() {
+        return overlayPaint;
+    }
+
     public void setPathPaint(Paint pathPaint) {
         this.pathPaint = pathPaint;
     }
@@ -191,12 +223,22 @@ public class PathModel {
         updatePaint();
     }
 
+    public void setOverlayfillAlpha(float overlayfillAlpha) {
+        this.overlayfillAlpha = overlayfillAlpha;
+        updatePaint();
+    }
+
     public int getFillColor() {
         return fillColor;
     }
 
     public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
+        updatePaint();
+    }
+
+    public void setOverlayFillColor(int overlayFillColor) {
+        this.overlayFillColor = overlayFillColor;
         updatePaint();
     }
 
