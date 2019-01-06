@@ -25,7 +25,7 @@ public class DefaultValues {
     public final static float PATH_STROKE_WIDTH = 0.0f;
     public final static float PATH_STROKE_ALPHA = 1.0f;
     public final static float PATH_FILL_ALPHA = 1.0f;
-    public final static float PATH_OVELRAY_FILL_ALPHA = 1.0f;
+    public final static float PATH_OVELRAY_FILL_ALPHA = 0.0f;
     public final static Paint.Cap PATH_STROKE_LINE_CAP = Paint.Cap.BUTT;
     public final static Paint.Join PATH_STROKE_LINE_JOIN = Paint.Join.MITER;
     public final static float PATH_STROKE_MITER_LIMIT = 4.0f;
